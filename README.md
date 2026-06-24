@@ -49,29 +49,11 @@ cognifyz-task-2/
 * ✅ RESTful POST `/submit` route for user registration
 
 ---
-
 ## 🚀 Getting Started
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/sreekirthana123/cognifyz-task-2.git
-cd cognifyz-task-2
+The app is live and ready to use — no installation needed!
 
-# 2. Install dependencies
-npm install
-
-# 3. Set up your .env file
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=yourpassword
-DB_NAME=task5_test_db
-PORT=3000
-
-# 4. Run the server
-node server.js
-```
-
-Then open `http://localhost:3000` in your browser.
+👉 [**Access the Live App Here**](https://sree-kirthana-full-stack.streamlit.app/)
 
 ---
 
