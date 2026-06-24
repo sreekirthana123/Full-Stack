@@ -16,10 +16,9 @@ A full-stack user registration web application built with Node.js and Express on
 * **`package.json`**: Project metadata and dependency definitions.
 
 ---
-
 ## 📂 Folder Structure
 
-\`\`\`text
+```text
 cognifyz-task-2/
 ├── public/                 # Frontend (HTML, CSS, JS)
 ├── .env                    # Environment variables (DB credentials)
@@ -27,8 +26,7 @@ cognifyz-task-2/
 ├── package.json            # Project dependencies
 ├── package-lock.json       # Locked dependency tree
 └── server.js               # Express backend + MySQL integration
-\`\`\`
-
+```
 ---
 
 ## 🛠 Tech Stack
