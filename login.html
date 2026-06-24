@@ -1,0 +1,114 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 50px; }
+        .login-box { max-width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Welcome Back</h2>
+        <form id="loginForm">
+            <label>Email:</label>
+            <input type="email" id="email" required>
+            
+            <label>Password:</label>
+            <input type="password" id="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin', // <-- THIS ENSURES THE WRISTBAND SAVES!
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert("Login Failed: " + data.error);
+                } else {
+                    alert("✅ " + data.message);
+                    // TELEPORT THE USER TO THE DASHBOARD!
+                    window.location.href = '/dashboard.html'; 
+                }
+            })
+            .catch(err => console.error("Error:", err));
+        });
+    </script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 50px; }
+        .login-box { max-width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Welcome Back</h2>
+        <form id="loginForm">
+            <label>Email:</label>
+            <input type="email" id="email" required>
+            
+            <label>Password:</label>
+            <input type="password" id="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin', // <-- THIS ENSURES THE WRISTBAND SAVES!
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert("Login Failed: " + data.error);
+                } else {
+                    alert("✅ " + data.message);
+                    // TELEPORT THE USER TO THE DASHBOARD!
+                    window.location.href = '/dashboard.html'; 
+                }
+            })
+            .catch(err => console.error("Error:", err));
+        });
+    </script>
+</body>
+>>>>>>> 023f86a5cd4bd94e134b3713ea23dc2cd20c5e01
+</html>

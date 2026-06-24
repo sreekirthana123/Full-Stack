@@ -1,0 +1,391 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>User Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center">
+
+
+
+    <div id="view-register" class="app-view hidden absolute inset-0 bg-black/80 flex items-center justify-center p-6">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.3)] w-full max-w-md">
+            <h2 class="text-2xl font-light text-cyan-300 mb-6 text-center tracking-wider uppercase">User Registration</h2>
+            
+            <form id="registrationForm" class="space-y-4">
+
+                <div class="form-group">
+                    <label for="username" class="block text-sm text-gray-400 mb-1">Username:</label>
+                    <input type="text" id="username" name="username" class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="Enter username">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="block text-sm text-gray-400 mb-1">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm text-gray-400 mb-1">Password:</label>
+                    <input type="password" id="password" name="password" 
+                           class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                           placeholder="Create a password">
+                    
+                    <div style="height: 5px; width: 100%; background: #eee; margin-top: 5px; border-radius: 3px;">
+                        <div id="strength-bar" style="height: 100%; width: 0%; background: red; transition: width 0.3s, background 0.3s;"></div>
+                    </div>
+                    <small id="strength-text" style="color: #666; font-weight: bold;"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="1" max="99" 
+                           class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                           placeholder="Enter age">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 transition-all p-3 rounded-lg font-medium text-white shadow-lg mt-4">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="app-view" style="display: none;">
+        <div class="form-container" style="text-align: center;">
+            <h2 style="color: green;">Registration Successful!</h2>
+            <p>Welcome to the Dashboard. You navigated here instantly without a page reload.</p>
+            <br>
+            <a href="#register" style="padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Register Another User</a>
+        </div>
+    </div>
+
+    <script>
+    // --- STEP 2: Dynamic DOM Manipulation ---
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('strength-bar');
+    const strengthText = document.getElementById('strength-text');
+
+    // This runs every time the user types a letter in the password box
+    passwordInput.addEventListener('input', function() {
+        const val = passwordInput.value;
+        let strength = 0;
+
+        // Step 1: Complex Validation Rules
+        if (val.length >= 8) strength += 1; // Length
+        if (/[A-Z]/.test(val)) strength += 1; // Has uppercase
+        if (/[0-9]/.test(val)) strength += 1; // Has number
+        if (/[^A-Za-z0-9]/.test(val)) strength += 1; // Has special character
+
+        // Dynamically update the DOM based on score
+        if (val.length === 0) {
+            strengthBar.style.width = '0%';
+            strengthText.textContent = '';
+        } else if (strength <= 1) {
+            strengthBar.style.width = '25%';
+            strengthBar.style.background = 'red';
+            strengthText.textContent = 'Weak';
+            strengthText.style.color = 'red';
+        } else if (strength === 2 || strength === 3) {
+            strengthBar.style.width = '50%';
+            strengthBar.style.background = 'orange';
+            strengthText.textContent = 'Moderate';
+            strengthText.style.color = 'orange';
+        } else if (strength === 4) {
+            strengthBar.style.width = '100%';
+            strengthBar.style.background = 'green';
+            strengthText.textContent = 'Strong!';
+            strengthText.style.color = 'green';
+        }
+    });
+
+    function validateForm() {
+        // Keep your existing username, email, and age validation here
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let age = document.getElementById('age').value;
+
+        if (username.length < 3) {
+            alert("Username must be at least 3 characters long.");
+            return false;
+        }
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (age < 18 || age > 99) {
+            alert("You must be between 18 and 99 years old.");
+            return false;
+        }
+
+        const password = passwordInput.value;
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+            alert("Password must be at least 8 characters long, contain a number, and an uppercase letter.");
+            return false;
+        }
+
+        return true;
+    }
+    // --- STEP 3: Client-Side Routing ---
+    function handleRouting() {
+        let hash = window.location.hash || '#register';
+        document.querySelectorAll('.app-view').forEach(view => {
+            view.style.display = 'none';
+        });
+
+        let targetId = 'view-' + hash.substring(1);
+        let targetView = document.getElementById(targetId);
+
+        if (targetView) {
+            targetView.style.display = 'block';
+        }
+    }
+
+    window.addEventListener('hashchange', handleRouting);
+    handleRouting();
+
+    // --- STEP 4: Fetch API (Seamless Submission) ---
+    const form = document.getElementById('registrationForm');
+
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+            age: document.getElementById('age').value,
+            password: passwordInput.value
+        };
+
+        try {
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                // Success: if dashboard view exists, switch to it. Otherwise just stay.
+                window.location.hash = '#dashboard';
+                form.reset();
+                strengthBar.style.width = '0%';
+                strengthText.textContent = '';
+            } else {
+                alert("Server validation failed. Please check your inputs.");
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert("Network error occurred.");
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>User Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center">
+
+
+
+    <div id="view-register" class="app-view hidden absolute inset-0 bg-black/80 flex items-center justify-center p-6">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.3)] w-full max-w-md">
+            <h2 class="text-2xl font-light text-cyan-300 mb-6 text-center tracking-wider uppercase">User Registration</h2>
+            
+            <form id="registrationForm" class="space-y-4">
+
+                <div class="form-group">
+                    <label for="username" class="block text-sm text-gray-400 mb-1">Username:</label>
+                    <input type="text" id="username" name="username" class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="Enter username">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="block text-sm text-gray-400 mb-1">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm text-gray-400 mb-1">Password:</label>
+                    <input type="password" id="password" name="password" 
+                           class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                           placeholder="Create a password">
+                    
+                    <div style="height: 5px; width: 100%; background: #eee; margin-top: 5px; border-radius: 3px;">
+                        <div id="strength-bar" style="height: 100%; width: 0%; background: red; transition: width 0.3s, background 0.3s;"></div>
+                    </div>
+                    <small id="strength-text" style="color: #666; font-weight: bold;"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="1" max="99" 
+                           class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                           placeholder="Enter age">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 transition-all p-3 rounded-lg font-medium text-white shadow-lg mt-4">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="app-view" style="display: none;">
+        <div class="form-container" style="text-align: center;">
+            <h2 style="color: green;">Registration Successful!</h2>
+            <p>Welcome to the Dashboard. You navigated here instantly without a page reload.</p>
+            <br>
+            <a href="#register" style="padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Register Another User</a>
+        </div>
+    </div>
+
+    <script>
+    // --- STEP 2: Dynamic DOM Manipulation ---
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('strength-bar');
+    const strengthText = document.getElementById('strength-text');
+
+    // This runs every time the user types a letter in the password box
+    passwordInput.addEventListener('input', function() {
+        const val = passwordInput.value;
+        let strength = 0;
+
+        // Step 1: Complex Validation Rules
+        if (val.length >= 8) strength += 1; // Length
+        if (/[A-Z]/.test(val)) strength += 1; // Has uppercase
+        if (/[0-9]/.test(val)) strength += 1; // Has number
+        if (/[^A-Za-z0-9]/.test(val)) strength += 1; // Has special character
+
+        // Dynamically update the DOM based on score
+        if (val.length === 0) {
+            strengthBar.style.width = '0%';
+            strengthText.textContent = '';
+        } else if (strength <= 1) {
+            strengthBar.style.width = '25%';
+            strengthBar.style.background = 'red';
+            strengthText.textContent = 'Weak';
+            strengthText.style.color = 'red';
+        } else if (strength === 2 || strength === 3) {
+            strengthBar.style.width = '50%';
+            strengthBar.style.background = 'orange';
+            strengthText.textContent = 'Moderate';
+            strengthText.style.color = 'orange';
+        } else if (strength === 4) {
+            strengthBar.style.width = '100%';
+            strengthBar.style.background = 'green';
+            strengthText.textContent = 'Strong!';
+            strengthText.style.color = 'green';
+        }
+    });
+
+    function validateForm() {
+        // Keep your existing username, email, and age validation here
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let age = document.getElementById('age').value;
+
+        if (username.length < 3) {
+            alert("Username must be at least 3 characters long.");
+            return false;
+        }
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (age < 18 || age > 99) {
+            alert("You must be between 18 and 99 years old.");
+            return false;
+        }
+
+        const password = passwordInput.value;
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+            alert("Password must be at least 8 characters long, contain a number, and an uppercase letter.");
+            return false;
+        }
+
+        return true;
+    }
+    // --- STEP 3: Client-Side Routing ---
+    function handleRouting() {
+        let hash = window.location.hash || '#register';
+        document.querySelectorAll('.app-view').forEach(view => {
+            view.style.display = 'none';
+        });
+
+        let targetId = 'view-' + hash.substring(1);
+        let targetView = document.getElementById(targetId);
+
+        if (targetView) {
+            targetView.style.display = 'block';
+        }
+    }
+
+    window.addEventListener('hashchange', handleRouting);
+    handleRouting();
+
+    // --- STEP 4: Fetch API (Seamless Submission) ---
+    const form = document.getElementById('registrationForm');
+
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+            age: document.getElementById('age').value,
+            password: passwordInput.value
+        };
+
+        try {
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                // Success: if dashboard view exists, switch to it. Otherwise just stay.
+                window.location.hash = '#dashboard';
+                form.reset();
+                strengthBar.style.width = '0%';
+                strengthText.textContent = '';
+            } else {
+                alert("Server validation failed. Please check your inputs.");
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert("Network error occurred.");
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
+>>>>>>> 023f86a5cd4bd94e134b3713ea23dc2cd20c5e01

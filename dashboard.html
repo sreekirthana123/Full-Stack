@@ -1,0 +1,111 @@
+<<<<<<< HEAD
+<div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+    <h3 class="text-xl font-light text-cyan-300 mb-6 tracking-wide uppercase">Registered Users</h3>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-gray-200">
+            <thead>
+                <tr class="border-b border-white/10 text-cyan-400 font-medium uppercase text-sm">
+                    <th class="py-3 px-4">ID</th>
+                    <th class="py-3 px-4">Username</th>
+                    <th class="py-3 px-4">Email</th>
+                    <th class="py-3 px-4">Age</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <script>
+    // 1. Ask the server for the data (include cookies so the session is recognized)
+    fetch('/api/users', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' // This forces the browser to send the cookie we just enabled!
+    })
+        .then(response => response.json()) // 2. Convert it from raw text to a Javascript object
+        .then(users => {
+            const tableBody = document.getElementById('userTableBody');
+            
+            // 3. Clear out any loading text
+            tableBody.innerHTML = ''; 
+
+            // 4. Loop through every user in the database
+            users.forEach(user => {
+                // 5. Create a new row for each user
+                const row = document.createElement('tr');
+                row.className = 'border-b border-white/10';
+                
+                row.innerHTML = `
+                    <td class="py-3 px-4">${user.id}</td>
+                    <td class="py-3 px-4">${user.username}</td>
+                    <td class="py-3 px-4">${user.email}</td>
+                    <td class="py-3 px-4">${user.age}</td>
+                `;
+                
+                // 6. Add the row to the table
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+            document.getElementById('userTableBody').innerHTML = '<tr><td colspan="4" class="py-3 px-4">Failed to load data.</td></tr>';
+        });
+</script>
+            </tbody>
+        </table>
+    </div>
+</div>
+=======
+<div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+    <h3 class="text-xl font-light text-cyan-300 mb-6 tracking-wide uppercase">Registered Users</h3>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-gray-200">
+            <thead>
+                <tr class="border-b border-white/10 text-cyan-400 font-medium uppercase text-sm">
+                    <th class="py-3 px-4">ID</th>
+                    <th class="py-3 px-4">Username</th>
+                    <th class="py-3 px-4">Email</th>
+                    <th class="py-3 px-4">Age</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <script>
+    // 1. Ask the server for the data (include cookies so the session is recognized)
+    fetch('/api/users', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' // This forces the browser to send the cookie we just enabled!
+    })
+        .then(response => response.json()) // 2. Convert it from raw text to a Javascript object
+        .then(users => {
+            const tableBody = document.getElementById('userTableBody');
+            
+            // 3. Clear out any loading text
+            tableBody.innerHTML = ''; 
+
+            // 4. Loop through every user in the database
+            users.forEach(user => {
+                // 5. Create a new row for each user
+                const row = document.createElement('tr');
+                row.className = 'border-b border-white/10';
+                
+                row.innerHTML = `
+                    <td class="py-3 px-4">${user.id}</td>
+                    <td class="py-3 px-4">${user.username}</td>
+                    <td class="py-3 px-4">${user.email}</td>
+                    <td class="py-3 px-4">${user.age}</td>
+                `;
+                
+                // 6. Add the row to the table
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+            document.getElementById('userTableBody').innerHTML = '<tr><td colspan="4" class="py-3 px-4">Failed to load data.</td></tr>';
+        });
+</script>
+            </tbody>
+        </table>
+    </div>
+</div>
+>>>>>>> 023f86a5cd4bd94e134b3713ea23dc2cd20c5e01
